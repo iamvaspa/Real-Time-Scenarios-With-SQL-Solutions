@@ -36,7 +36,6 @@ SELECT *,
  ) AS rn
 FROM I_Emp_Raw;
 
-
 ⸻
 
 🔍 Explanation
