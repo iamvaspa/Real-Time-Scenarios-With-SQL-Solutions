@@ -1,0 +1,54 @@
+💡 SQL Scenario-Based Interview Questions With Answers
+
+📌 Problem: Duplicate Rows
+
+📝 Scenario
+
+You’re given an employees_raw table that has been populated by a faulty ETL job, causing some employee records to be inserted more than once.
+
+Each duplicate row has identical values across:
+
+* Name
+* Department
+* Salary
+
+However, each row has a different id because id is an auto-incrementing primary key.
+
+❓Interview Question
+
+Write a SQL query to identify all duplicate rows, including the original.
+
+For every group of rows that share the same name, department, and salary, return every row along with a number indicating its occurrence rank within that group:
+
+* 1 → First occurrence (original record)
+* 2 → Second occurrence
+* 3 → Third occurrence
+* …and so on.
+
+⸻
+
+✅ Solution
+'''
+SELECT *,
+ ROW_NUMBER() OVER (
+ PARTITION BY name, department, salary
+ ORDER BY id
+ ) AS rn
+FROM I_Emp_Raw;
+'''
+⸻
+
+🔍 Explanation
+
+* PARTITION BY name, department, salary groups rows having the same employee details.
+* ORDER BY id ensures records are ranked based on their insertion order.
+* ROW_NUMBER() assigns a sequential number within each duplicate group:
+ * rn = 1 → Original record
+ * rn > 1 → Duplicate records
+
+This approach is commonly used for:
+
+* ✅ Identifying duplicate records
+* ✅ Data cleansing
+* ✅ ETL validation
+* ✅ Preparing datasets for deduplication
